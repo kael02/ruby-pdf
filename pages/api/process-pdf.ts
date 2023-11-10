@@ -2,6 +2,7 @@ import { run } from '@/scripts/ingest-data';
 import formidable from 'formidable';
 import fs from 'fs';
 import { NextApiRequest, NextApiResponse } from 'next';
+const path = require('path');
 
 export const config = {
   api: {
@@ -18,6 +19,10 @@ const post = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 const saveFile = async (file: any) => {
+  const uploadDir = path.join(__dirname, 'uploaded');
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+  }
   const data = fs.readFileSync(file.path);
   const newFilePath = `./uploaded/${file.name}`;
   fs.writeFileSync(newFilePath, data);

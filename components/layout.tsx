@@ -5,7 +5,7 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   return (
     <div className="mx-auto flex flex-col space-y-4">
-      <header className="container sticky top-0 z-40">
+      <header className="sticky top-0 z-40">
         <div className="h-16 border-b border-b-slate-200 py-4">
           <nav className="">
             <h1 className="text-4xl font-bold leading-[1.2] tracking-tighter text-center text-[#FFF6E0]">
