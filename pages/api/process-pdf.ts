@@ -19,15 +19,8 @@ const post = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 const saveFile = async (file: any) => {
-  const uploadDir = 'public/uploaded';
-  if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true });
-  }
   const data = fs.readFileSync(file.path);
-  const newFilePath = `${uploadDir}/${file.name}`;
-  if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true });
-  }
+  const newFilePath = path.join('/tmp', file.name);
   fs.writeFileSync(newFilePath, data);
   await fs.unlinkSync(file.path);
   await run(newFilePath);
