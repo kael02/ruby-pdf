@@ -50,6 +50,6 @@ export const run = async (filePath: string) => {
     });
   } catch (error) {
     console.log('error', error);
-    throw new Error('Failed to ingest your data');
+    throw error;
   }
 };

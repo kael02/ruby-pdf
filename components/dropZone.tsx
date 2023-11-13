@@ -31,8 +31,6 @@ const DropZone = ({ data, dispatch }: { data: any; dispatch: any }) => {
     e.preventDefault();
     e.stopPropagation();
 
-    console.log('event', e.dataTransfer);
-
     let files = [...e.dataTransfer.files];
 
     if (files && files.length > 0) {
@@ -95,6 +93,7 @@ const DropZone = ({ data, dispatch }: { data: any; dispatch: any }) => {
           type="file"
           className={styles.files}
           onChange={handleFileSelect}
+          accept=".pdf"
         />
         <label htmlFor="fileSelect">You can select Files</label>
 

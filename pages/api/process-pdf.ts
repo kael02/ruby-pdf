@@ -13,14 +13,22 @@ export const config = {
 const post = async (req: NextApiRequest, res: NextApiResponse) => {
   const form = new formidable.IncomingForm();
   form.parse(req, async function (err, fields, files) {
-    await saveFile(files.files);
-    return res.status(201).send('');
+    try {
+      await saveFile(files.files);
+      return res.status(201).send('');
+    } catch (e: any) {
+      return res.status(400).send(e.message);
+    }
   });
 };
 
 const saveFile = async (file: any) => {
+  const uploadDir = path.join(__dirname, 'uploaded');
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+  }
   const data = fs.readFileSync(file.path);
-  const newFilePath = path.join('/tmp', file.name);
+  const newFilePath = `${uploadDir}/${file.name}`;
   fs.writeFileSync(newFilePath, data);
   await fs.unlinkSync(file.path);
   await run(newFilePath);
