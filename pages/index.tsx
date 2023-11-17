@@ -18,6 +18,7 @@ export default function Home() {
   const [query, setQuery] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
+  const [isCreating, setIsCreating] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [messageState, setMessageState] = useState<{
     messages: Message[];
@@ -127,18 +128,43 @@ export default function Home() {
     }
   };
 
-  const clearVectorData = async (e: any) => {
+  const removeIndex = async (e: any) => {
     e.preventDefault();
     setIsDeleting(true);
-    const response = await fetch('/api/clear-pinecone', {
+    const response = await fetch('/api/remove-index', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
     });
+
+    const data = await response.json();
+
+    if (response.status !== 200) {
+      alert(data.message);
+    }
+
     setIsDeleting(false);
   };
 
+  const createIndex = async (e: any) => {
+    e.preventDefault();
+    setIsCreating(true);
+    const response = await fetch('/api/create-index', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = await response.json();
+
+    if (response.status !== 200) {
+      alert(data.message);
+    }
+
+    setIsCreating(false);
+  };
   return (
     <>
       <Layout>
@@ -276,13 +302,26 @@ export default function Home() {
                 <p className="text-red-500">{error}</p>
               </div>
             )}
-            <button
-              className="btn btn-outline btn-secondary"
-              onClick={clearVectorData}
-            >
-              {isDeleting ? 'Deleting' : 'Clear Vector Data'}
-              {isDeleting && <span className="loading loading-spinner"></span>}
-            </button>
+            <div className="flex gap-4">
+              <button
+                className="btn btn-outline btn-primary"
+                onClick={createIndex}
+              >
+                {isCreating ? 'Creating' : 'Create vector index'}
+                {isCreating && (
+                  <span className="loading loading-spinner"></span>
+                )}
+              </button>
+              <button
+                className="btn btn-outline btn-secondary"
+                onClick={removeIndex}
+              >
+                {isDeleting ? 'Deleting' : 'Delete vector index'}
+                {isDeleting && (
+                  <span className="loading loading-spinner"></span>
+                )}
+              </button>
+            </div>
           </main>
         </div>
       </Layout>

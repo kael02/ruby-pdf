@@ -20,8 +20,8 @@ Helpful answer in markdown:`;
 export const makeChain = (vectorstore: PineconeStore) => {
   const model = new ChatOpenAI({
     temperature: 0.25, // increase temepreature to get more creative answers
-    modelName: 'gpt-3.5-turbo', //change this to gpt-4 if you have access
-    streaming: true, // enable when using vercel ai sdk
+    modelName: 'gpt-4-1106-preview', //change this to gpt-4 if you have access
+    streaming: false, // enable when using vercel ai sdk
   });
 
   const chain = ConversationalRetrievalQAChain.fromLLM(
