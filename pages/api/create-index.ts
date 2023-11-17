@@ -13,12 +13,12 @@ const post = async (req: NextApiRequest, res: NextApiResponse) => {
       },
     });
     console.log(`Index ${PINECONE_INDEX_NAME} successfully created.`);
+    return res.status(201).json({ message: 'created' });
   } catch (createError: any) {
     // Handle errors during index creation
     console.error(`Failed to create index: ${createError.message}`);
     return res.status(400).json({ message: createError.message });
   }
-  return res.status(201);
 };
 
 export default post;
